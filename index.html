@@ -188,14 +188,19 @@
             </div>
 
             <div class="space-y-2 px-3">
+                <button id="new-chat" type="button" class="flex w-full items-center gap-3 rounded-xl border border-black/5 bg-white px-3.5 py-3 text-left text-sm font-medium shadow-sm transition hover:border-[#7657d6]/30 hover:bg-white">
+                    <svg class="h-[18px] w-[18px] text-[#7657d6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 5v14m-7-7h14"/></svg>
+                    Percakapan baru
+                    <span class="ml-auto rounded border border-slate-200 px-1.5 py-0.5 text-[10px] text-slate-400">Ctrl K</span>
+                </button>
                 <div class="rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-3 text-xs leading-5 text-amber-900">
-                    Chat AI belum tersedia. Akun Googlemu sudah digunakan untuk masuk ke ruang kerja.
+                    Model Claude · pemakaian dibatasi per akun dan anggaran.
                 </div>
             </div>
 
             <div class="mt-8 flex min-h-0 flex-1 flex-col px-3">
-                <p class="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">Ruang kerja</p>
-                <p class="px-3 py-2 text-xs leading-5 text-slate-500">Riwayat chat akan tersedia setelah layanan AI dihubungkan.</p>
+                <p class="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">Percakapan ini</p>
+                <p class="px-3 py-2 text-xs leading-5 text-slate-500">Percakapan hanya tersimpan selama tab ini terbuka.</p>
             </div>
 
             <div class="border-t border-black/5 p-4">
@@ -217,7 +222,7 @@
                         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6h16M4 12h16M4 18h16"/></svg>
                     </button>
                     <span class="truncate text-sm font-semibold text-slate-800">Zenith Chat</span>
-                    <span class="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-800">Chat AI belum tersedia</span>
+                    <span class="rounded-full border border-[#ddd5f6] bg-[#f4f0ff] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#6243c3]">Claude Sonnet</span>
                 </div>
                 <span id="app-status" class="hidden text-xs text-red-700 sm:block" role="status" aria-live="polite"></span>
             </header>
@@ -229,8 +234,10 @@
                     </div>
                     <p class="mb-3 text-sm font-medium text-[#7657d6]">ZENITH STUDIO</p>
                     <h1 class="font-serif text-3xl font-medium leading-tight tracking-tight text-slate-900 sm:text-[42px]">Apa yang ingin kamu kerjakan?</h1>
-                    <div class="mt-8 max-w-xl rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-900">
-                        Kamu sudah masuk. Untuk menerima jawaban sungguhan, Zenith perlu dihubungkan ke backend dan layanan AI. Kolom chat dinonaktifkan sampai integrasi tersebut tersedia.
+                    <p class="mt-4 max-w-xl text-sm leading-6 text-slate-500 sm:text-base">Tanyakan sesuatu, minta ide, atau mulai dengan salah satu saran ini.</p>
+                    <div class="mt-8 grid max-w-xl gap-3 sm:grid-cols-2">
+                        <button type="button" data-prompt="Bantu saya merancang struktur website untuk studio kreatif." class="prompt-suggestion rounded-2xl border border-black/[0.08] bg-white p-4 text-left text-sm font-medium text-slate-800 transition hover:border-[#7657d6]/40 hover:shadow-sm">Rancang website</button>
+                        <button type="button" data-prompt="Buat kalender konten sederhana untuk satu minggu." class="prompt-suggestion rounded-2xl border border-black/[0.08] bg-white p-4 text-left text-sm font-medium text-slate-800 transition hover:border-[#7657d6]/40 hover:shadow-sm">Buat ide konten</button>
                     </div>
                 </div>
                 <div id="messages" class="mx-auto hidden max-w-3xl space-y-8 px-5 py-10 sm:px-8" aria-live="polite"></div>
@@ -240,20 +247,20 @@
                 <div class="mx-auto max-w-3xl">
                     <form id="chat-form" class="rounded-[22px] border border-black/10 bg-white p-3 shadow-[0_6px_30px_rgba(30,20,50,0.06)] transition focus-within:border-[#7657d6]/40 focus-within:shadow-[0_8px_34px_rgba(80,55,150,0.1)]">
                         <label for="chat-input" class="sr-only">Ketik pesan</label>
-                        <textarea id="chat-input" rows="1" maxlength="4000" disabled class="max-h-40 min-h-10 w-full resize-none bg-transparent px-2 py-2 text-sm leading-6 text-slate-400 outline-none placeholder:text-slate-400" placeholder="Chat AI belum tersedia" aria-describedby="chat-disclaimer"></textarea>
+                        <textarea id="chat-input" rows="1" maxlength="4000" disabled class="max-h-40 min-h-10 w-full resize-none bg-transparent px-2 py-2 text-sm leading-6 text-slate-800 outline-none placeholder:text-slate-400" placeholder="Kirim pesan ke Claude..." aria-describedby="chat-disclaimer"></textarea>
                         <div class="flex items-center justify-between px-1 pt-1">
                             <div class="flex items-center gap-1">
                                 <button id="attach-file-button" type="button" disabled class="rounded-lg p-2 text-slate-300" aria-label="Lampiran belum tersedia" title="Lampiran belum tersedia">
                                     <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m21 11.5-8.5 8.5a6 6 0 0 1-8.5-8.5l9-9a4 4 0 0 1 5.7 5.7l-9 9a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg>
                                 </button>
-                                <span id="chat-status" class="ml-1 text-xs text-slate-400" role="status" aria-live="polite">Layanan AI belum dihubungkan</span>
+                                <span id="chat-status" class="ml-1 text-xs text-slate-400" role="status" aria-live="polite">Memeriksa layanan Claude...</span>
                             </div>
                             <button id="send-message" type="submit" disabled class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#7657d6] text-white transition hover:bg-[#6546c4] disabled:cursor-not-allowed disabled:opacity-40" aria-label="Kirim pesan">
                                 <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 19V5m-7 7 7-7 7 7"/></svg>
                             </button>
                         </div>
                     </form>
-                    <p id="chat-disclaimer" class="mt-3 text-center text-[11px] leading-5 text-slate-400">Jangan masukkan data sensitif. Chat belum aktif.</p>
+                    <p id="chat-disclaimer" class="mt-3 text-center text-[11px] leading-5 text-slate-400">Claude dapat membuat kesalahan. Jangan masukkan informasi sensitif.</p>
                 </div>
             </footer>
         </main>
@@ -275,6 +282,18 @@
         const appStatus = document.getElementById('app-status');
         const accountName = document.getElementById('account-name');
         const accountEmail = document.getElementById('account-email');
+        const chatInput = document.getElementById('chat-input');
+        const chatForm = document.getElementById('chat-form');
+        const sendMessageButton = document.getElementById('send-message');
+        const chatStatus = document.getElementById('chat-status');
+        const chatMessagesElement = document.getElementById('messages');
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const chatScroll = document.getElementById('chat-scroll');
+        const newChatButton = document.getElementById('new-chat');
+        const chatMessages = [];
+        let callClaude = null;
+        let sendingMessage = false;
+
         const showAuthError = message => {
             authStatus.textContent = message;
             authStatus.classList.remove('hidden');
@@ -318,7 +337,7 @@
                 googleProvider.setCustomParameters({ prompt: 'select_account' });
                 await setPersistence(auth, browserLocalPersistence);
 
-                onAuthStateChanged(auth, user => {
+                onAuthStateChanged(auth, async user => {
                     if (user) {
                         accountName.textContent = user.displayName || 'Akun Google';
                         accountEmail.textContent = user.email || '';
@@ -327,9 +346,34 @@
                         appStatus.textContent = '';
                         signInButton.disabled = false;
                         signInLabel.textContent = 'Lanjutkan dengan Google';
+                        chatInput.disabled = true;
+                        sendMessageButton.disabled = true;
+                        chatStatus.textContent = 'Menghubungkan Claude...';
+                        try {
+                            const functionsSdk = await import('https://www.gstatic.com/firebasejs/11.10.0/firebase-functions.js');
+                            const functions = functionsSdk.getFunctions(firebaseApp, 'asia-southeast1');
+                            if (auth.currentUser?.uid !== user.uid) return;
+                            const checkBackend = functionsSdk.httpsCallable(functions, 'health');
+                            const health = await checkBackend({});
+                            if (!health.data || health.data.ready !== true) {
+                                throw new Error('Backend Claude belum siap.');
+                            }
+                            callClaude = functionsSdk.httpsCallable(functions, 'chat');
+                            chatInput.disabled = false;
+                            chatStatus.textContent = `Claude ${health.data.model} siap · batas 5 pesan per hari per akun`;
+                        } catch (error) {
+                            callClaude = null;
+                            chatInput.disabled = true;
+                            sendMessageButton.disabled = true;
+                            chatStatus.textContent = 'Backend Claude belum tersedia. Pesan tidak dikirim.';
+                            console.error('Firebase Functions gagal diperiksa:', error);
+                        }
                     } else {
                         appShell.hidden = true;
                         loginScreen.hidden = false;
+                        callClaude = null;
+                        chatMessages.length = 0;
+                        renderMessages();
                         signInButton.disabled = false;
                         signInLabel.textContent = 'Lanjutkan dengan Google';
                     }
@@ -375,6 +419,146 @@
                 showAuthError('Firebase tidak dapat dimulai. Periksa konfigurasi project, koneksi internet, dan buka situs lewat localhost atau HTTPS (bukan file://).');
             }
         }
+
+        function renderMessages() {
+            const hasMessages = chatMessages.length > 0;
+            welcomeScreen.classList.toggle('hidden', hasMessages);
+            chatMessagesElement.classList.toggle('hidden', !hasMessages);
+            chatMessagesElement.replaceChildren();
+
+            chatMessages.forEach(message => {
+                const row = document.createElement('article');
+                row.className = message.role === 'user' ? 'flex justify-end' : 'flex items-start gap-3';
+                if (message.role === 'assistant') {
+                    const mark = document.createElement('span');
+                    mark.className = 'mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#eee9fb] text-[#7657d6]';
+                    mark.setAttribute('aria-hidden', 'true');
+                    mark.textContent = '✦';
+                    row.append(mark);
+                }
+                const bubble = document.createElement('p');
+                bubble.className = message.role === 'user'
+                    ? 'max-w-[88%] whitespace-pre-wrap break-words rounded-2xl bg-[#f0eeeb] px-4 py-3 text-sm leading-6 text-slate-800 sm:max-w-[78%]'
+                    : 'max-w-[92%] whitespace-pre-wrap break-words pt-1 text-sm leading-7 text-slate-700 sm:max-w-[86%]';
+                bubble.textContent = message.content;
+                row.append(bubble);
+                chatMessagesElement.append(row);
+            });
+            chatScroll.scrollTop = chatScroll.scrollHeight;
+        }
+
+        async function submitChatMessage(text) {
+            const prompt = text.trim();
+            if (!prompt || sendingMessage) return;
+            if (!callClaude) {
+                chatStatus.textContent = 'Backend Claude belum siap; pesan tidak dikirim.';
+                return;
+            }
+
+            chatMessages.push({ role: 'user', content: prompt });
+            while (chatMessages.length > 8 || chatMessages.reduce((total, message) => total + message.content.length, 0) > 6000) {
+                if (chatMessages.length <= 1) break;
+                chatMessages.splice(0, 2);
+            }
+            renderMessages();
+            sendingMessage = true;
+            chatInput.disabled = true;
+            sendMessageButton.disabled = true;
+            newChatButton.disabled = true;
+            chatStatus.textContent = 'Claude sedang menyiapkan jawaban...';
+
+            try {
+                const result = await callClaude({ messages: chatMessages });
+                if (!result.data || typeof result.data.reply !== 'string' || !result.data.reply.trim()) {
+                    throw new Error('Claude mengembalikan format jawaban yang tidak valid.');
+                }
+                chatMessages.push({ role: 'assistant', content: result.data.reply });
+                renderMessages();
+                const remaining = Number(result.data.budgetRemainingUsd);
+                chatStatus.textContent = Number.isFinite(remaining)
+                    ? `Claude · perkiraan anggaran tersisa $${remaining.toFixed(2)} bulan ini`
+                    : 'Claude siap';
+                chatInput.value = '';
+                chatInput.style.height = 'auto';
+            } catch (error) {
+                chatMessages.pop();
+                renderMessages();
+                console.error('Permintaan chat Claude gagal:', error);
+                const messages = {
+                    'functions/unauthenticated': 'Sesi login berakhir. Masuk kembali untuk mengirim pesan.',
+                    'functions/resource-exhausted': error.message || 'Batas pemakaian tercapai. Coba lagi nanti.',
+                    'functions/invalid-argument': error.message || 'Pesan terlalu panjang atau format tidak valid.',
+                    'functions/unavailable': error.message || 'Layanan Claude sementara tidak tersedia.',
+                    'functions/internal': 'Backend gagal memproses permintaan. Periksa deployment dan log Firebase Functions.'
+                };
+                chatStatus.textContent = messages[error.code] || error.message || 'Pesan gagal dikirim. Coba lagi.';
+                chatInput.value = prompt;
+            } finally {
+                sendingMessage = false;
+                newChatButton.disabled = false;
+                chatInput.disabled = !callClaude;
+                sendMessageButton.disabled = !callClaude || chatInput.value.trim().length === 0;
+                if (callClaude) chatInput.focus();
+            }
+        }
+
+        chatForm.addEventListener('submit', event => {
+            event.preventDefault();
+            submitChatMessage(chatInput.value);
+        });
+        chatInput.addEventListener('input', () => {
+            chatInput.style.height = 'auto';
+            chatInput.style.height = `${Math.min(chatInput.scrollHeight, 160)}px`;
+            sendMessageButton.disabled = sendingMessage || !callClaude || chatInput.value.trim().length === 0;
+        });
+        chatInput.addEventListener('keydown', event => {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                if (!sendMessageButton.disabled) chatForm.requestSubmit();
+            }
+        });
+        document.querySelectorAll('.prompt-suggestion').forEach(button => {
+            button.addEventListener('click', () => {
+                chatInput.value = button.dataset.prompt || '';
+                chatInput.dispatchEvent(new Event('input', { bubbles: true }));
+                chatInput.focus();
+            });
+        });
+        newChatButton.addEventListener('click', () => {
+            if (sendingMessage) return;
+            chatMessages.length = 0;
+            renderMessages();
+            chatStatus.textContent = callClaude ? 'Claude siap · batas 5 pesan per hari per akun' : 'Backend Claude belum tersedia.';
+            chatInput.value = '';
+            chatInput.focus();
+        });
+
+        document.addEventListener('keydown', event => {
+            if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k' && !appShell.hidden) {
+                event.preventDefault();
+                newChatButton.click();
+            }
+        });
+
+        const sidebar = document.getElementById('chat-sidebar');
+        const sidebarToggle = document.getElementById('sidebar-open');
+        const sidebarClose = document.getElementById('sidebar-close');
+        const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+        const closeSidebar = () => {
+            sidebar.classList.add('-translate-x-full');
+            sidebarBackdrop.classList.add('hidden');
+            sidebarToggle.setAttribute('aria-expanded', 'false');
+        };
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.remove('-translate-x-full');
+            sidebarBackdrop.classList.remove('hidden');
+            sidebarToggle.setAttribute('aria-expanded', 'true');
+        });
+        sidebarClose.addEventListener('click', closeSidebar);
+        sidebarBackdrop.addEventListener('click', closeSidebar);
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') closeSidebar();
+        });
     </script>
 </body>
 </html>
