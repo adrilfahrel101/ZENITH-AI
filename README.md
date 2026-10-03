@@ -5,47 +5,23 @@ GitHub Pages website: <https://adrilfahrel101.github.io/ZENITH-AI/>
 ## Current setup
 
 - Google sign-in uses Firebase Authentication.
-- Chat calls Claude Sonnet 5.5 through a Firebase callable function; the Anthropic key stays in Firebase Secret Manager.
-- The function requires a signed-in Firebase user, accepts at most 8 recent messages / 6,000 characters, returns at most 512 tokens, and limits each user to 5 calls per UTC day.
-- A Firestore transaction reserves estimated API cost against a shared $4.50 monthly application budget. This is an application-side estimate, not Anthropic's billing system or an absolute guarantee.
-- Chat history is kept in page memory only and is cleared on sign-out or reload.
+- Chat uses Gemini through Firebase AI Logic and the Gemini Developer API free tier; no Gemini API key is stored in the website.
+- The selected model is `gemini-3.1-flash-lite`. The free tier has model and usage limits that Google can change. When the quota is exhausted, chat must wait until it resets or use another eligible model/tier.
+- Chat history stays in page memory and is cleared on sign-out or reload. Each request includes at most 8 recent messages / 6,000 characters and requests at most 512 output tokens.
+- Free-tier Gemini prompts may be used by Google to improve its products. Do not send passwords, payment details, private keys, or other sensitive information.
 
-## Deploy the Claude backend
+## Enable Gemini for this Firebase project
 
-Prerequisites: Node.js 22, Firebase CLI, access to the `zenith-studio-c20ce` Firebase project, a Firestore Native database in `asia-southeast1`, an Anthropic API account/key, and Firebase billing enabled for Cloud Functions.
+1. Open the Firebase Console for project `zenith-studio-c20ce`.
+2. Open **AI services → Firebase AI Logic** and choose **Get started**.
+3. Select **Gemini Developer API** as the provider. Keep the project on the **Spark** plan and choose the free tier; do not link a Cloud Billing account for this setup.
+4. Open the live site and sign in with Google. If the setup is complete and the free-tier quota is available, send a test message.
 
-1. In the Anthropic Console, create an API key and configure a monthly spend limit of no more than US$5 if the account offers that limit. Do not paste the key into source code, GitHub, or chat.
-2. Open a terminal in this project and run:
+The website does not use Cloud Functions, Firestore, or an API key for this Gemini setup. The old Claude Functions deployment is not part of this free-tier configuration.
 
-   ```powershell
-   npm install --global firebase-tools
-   firebase login
-   firebase use zenith-studio-c20ce
-   ```
+## Security and limits
 
-3. Upgrade Firebase to the Blaze plan and attach a billing account. Cloud Functions require billing; these Firebase costs are separate from the Anthropic API budget. Set a Firebase budget alert, noting that alerts do not automatically stop billing.
-4. Create the Firestore Native database in `asia-southeast1` if it does not already exist.
-5. Save the API key as a Firebase secret. The CLI prompts for it securely:
-
-   ```powershell
-   firebase functions:secrets:set ANTHROPIC_API_KEY
-   ```
-
-6. From the project root, install backend dependencies and deploy:
-
-   ```powershell
-   Set-Location .\functions
-   npm install
-   Set-Location ..
-   firebase deploy --only functions,firestore:rules
-   ```
-
-7. Upload the updated `index.html` to the root of the `main` branch in GitHub. GitHub Pages will publish the frontend; Firebase deploy publishes the backend separately.
-
-## Cost and security notes
-
-- The app-side $4.50 cap is a conservative reservation estimate using Claude Sonnet 5.5 public token rates ($4 / million input tokens and $20 / million output tokens). Tokenization, provider pricing changes, concurrent deployments, Firebase billing, and other usage may differ. Configure provider-side spending limits and alerts too.
-- Firebase budgets are alerts, not hard spending caps. Blaze may incur charges independently of Anthropic usage.
-- Do not put an Anthropic API key, Firebase service-account JSON, or private credentials in `index.html` or this public repository.
-- Firestore client access is denied by `firestore.rules`; Cloud Functions use the Firebase Admin SDK for server-side quota accounting.
-- This deployment does not yet enable App Check. Configure and enforce App Check before a broad public launch.
+- Firebase AI Logic protects the model connection; never put a Gemini or Anthropic API key in this public repository.
+- The web app is registered in Firebase **App Check** with a reCAPTCHA Enterprise score-based key restricted to `adrilfahrel101.github.io`. The website initializes the Enterprise provider, and Firebase AI Logic App Check enforcement is enabled. Keep the public site key domain-restricted; never put a reCAPTCHA secret key or Gemini API key in this repository.
+- The browser limits request size for usability, but client-side limits are not a hard per-account spending or abuse cap.
+- Gemini free-tier prompts may be used to improve Google's products; use paid service terms or another provider if that is unsuitable. Google can change model availability and rate limits. Check the [Gemini API pricing and terms](https://ai.google.dev/gemini-api/docs/pricing) before relying on it.
