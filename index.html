@@ -365,10 +365,13 @@
                                 generationConfig: { maxOutputTokens: 512 }
                             });
                             generateGeminiResponse = async messages => {
-                                const result = await model.generateContent(messages.map(message => ({
-                                    role: message.role === 'assistant' ? 'model' : 'user',
-                                    parts: [{ text: message.content }]
-                                })));
+                                const chat = model.startChat({
+                                    history: messages.slice(0, -1).map(message => ({
+                                        role: message.role === 'assistant' ? 'model' : 'user',
+                                        parts: [{ text: message.content }]
+                                    }))
+                                });
+                                const result = await chat.sendMessage(messages[messages.length - 1].content);
                                 return result.response.text();
                             };
                             chatInput.disabled = false;
